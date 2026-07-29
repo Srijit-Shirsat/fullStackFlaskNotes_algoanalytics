@@ -1,3 +1,10 @@
+## 🎥 Project Demonstration
+
+A complete walkthrough of the Dockerization process is available in the release assets.
+
+**Demo Video:**  
+https://drive.google.com/file/d/14QhalLl5LZPrjRnot4KiW7kaVSRN_Uc7/view?usp=sharing 
+
 # Flask Notes Application - Dockerized
 
 ## Overview
@@ -272,6 +279,9 @@ docker rmi <IMAGE_ID/NAME>
 AttributeError:
 'NoneType' object has no attribute 'is_active'
 ```
+
+<img width="1913" height="967" alt="Screenshot 2026-07-29 144531" src="https://github.com/user-attachments/assets/74c53399-38cc-45a2-981e-a3415f002bf9" />
+
 
 ### Cause
 
