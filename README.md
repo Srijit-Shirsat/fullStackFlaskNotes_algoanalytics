@@ -1,57 +1,396 @@
-# Flask Notes Web Application
+# Flask Notes Application - Dockerized
 
-## Live-link https://notesapp-rad4.onrender.com
+## Overview
 
-The Flask Notes Web Application is a feature-rich web platform designed to provide users with a convenient and efficient way to create, organize, and manage their notes. Built using Flask, SQLAlchemy, Jinja, and Python, this application offers a seamless user experience combined with robust functionality.
+This repository contains a Dockerized version of the Flask Notes Application completed as part of the **AlgoAnalytics Cloud Internship Assignment**.
 
-## Key Features:
+The application allows users to:
 
-1. User Authentication and Authorization:
+- Create an account
+- Log in securely
+- Create personal notes
+- View saved notes
+- Delete notes
+- Log out
 
-* Users can register and create their accounts.
-* Secure login and password hashing ensure data privacy.
-* Role-based access control allows administrators to manage user permissions.
+The application uses:
 
-2. Note Creation and Organization:
+- Flask
+- Flask-SQLAlchemy
+- Flask-Login
+- SQLite
+- Docker
 
-* Users can create, edit, and delete notes.
-* Notes can be organized into categories or tags for easy navigation.
-* Rich text editing capabilities enable users to format their notes.
+---
 
-3. Search and Filtering:
+# Assignment Objective
 
-* Users can search for specific notes using keywords or tags.
-* Filtering options help users narrow down their search results.
+The following objectives were completed successfully:
 
-4. Collaboration and Sharing:
+- Forked an existing open-source Flask application.
+- Understood the application architecture.
+- Identified project dependencies.
+- Created a Dockerfile.
+- Built the Docker image.
+- Executed the application inside a Docker container.
+- Verified application functionality.
+- Documented the complete process.
+- Identified and fixed bugs discovered during testing.
 
-* Users can share notes with other registered users.
-* Collaborative editing allows multiple users to work on the same note simultaneously.
+---
 
-5. Reminders and Notifications:
+# Steps Followed to Complete the Assignment
 
-* Users can set reminders for important notes.
-* Notification system informs users about upcoming reminders or shared note activities.
+## 1. Forked Repository
 
-6. Responsive Design:
+Forked the original Flask Notes application into my GitHub account.
 
-* The web application is built with responsive design principles, ensuring optimal user experience across different devices.
+---
 
-7. Data Persistence and Scalability:
+## 2. Analysed the Project
 
-* SQLAlchemy is used as the Object-Relational Mapping (ORM) tool, allowing seamless database interactions.
-* The application is designed to handle a large number of users and notes without compromising performance.
+Studied the project structure and identified:
 
-8. Customizable User Interface:
+- After forking the repository, my first task included analyzing the project and understanding that how its built, where I asked this questions to myself:
+  1. Which language/framework is used to build this application?
+  2. Which type of dependency file our application uses?
+  3. How are those dependencies installed?
+  4. Does it require build?
+  5. On which port our application listens?
+  6. What commands are used to start our application?
 
-* Jinja templating engine allows for flexible and dynamic web page rendering.
-* Users can personalize the appearance of their notes and the overall theme of the application.
+- After researching and answering above questions, writing Dockerfile for application became easier.
 
-## Technical Stack:
+---
 
-Flask: A lightweight web framework for Python.<br>
-SQLAlchemy: An Object-Relational Mapping (ORM) library for database management.<br>
-Jinja: A templating engine for rendering dynamic web pages.<br>
-Python: The programming language used for the back-end logic.
+## 3. Identified Database
 
-The Flask Notes Web Application aims to provide users with a user-friendly and efficient platform for note-taking and organization. With its extensive set of features and a robust technical stack, it empowers users to stay organized, collaborate, and easily access their notes from any device with an internet connection.
+While analysing the application, I was observed that the project uses SQLite through SQLAlchemy and automatically creates the database during application startup.
+
+The application invokes:
+
+```python
+create_database(app)
+```
+
+which internally checks whether the database exists and creates it if necessary using SQLAlchemy.
+
+Because SQLite is a file-based database and is initialized automatically by the application, no manual database initialization or setup scripts were required.
+
+So **single Docker container** was sufficient to run the complete application. Unlike client-server databases such as MySQL or PostgreSQL. 
+
+---
+
+## 4. Created Dockerfile
+
+Created a Dockerfile to:
+
+- Use an official Python image
+- Copy application files
+- Install dependencies
+- Expose the application port
+- Start the Flask application
+
+---
+
+## 5. Built Docker Image
+
+```bash
+docker build -t flask-notes .
+```
+
+---
+
+## 6. Verified Docker Image
+
+```bash
+docker images
+```
+
+---
+
+## 7. Started Container
+
+```bash
+docker run -d \
+--name flask-notes \
+-p 8080:5000 \
+flask-notes
+```
+
+---
+
+## 8. Verified Running Container
+
+```bash
+docker ps
+```
+
+---
+
+## 9. Accessed Application
+
+```
+<AWS_PUBLIC_IP>:8080
+```
+
+Verified:
+
+- User Registration
+- Login
+- Notes Creation
+- Notes Deletion
+- Logout
+
+# Acknowledgements
+
+This project is based on the following open-source repository:
+
+**Original Repository:**
+> <https://github.com/SHOCKWAVE07/fullStackFlaskNotes.git>
+
+All credits for the original application belong to its respective author(s).
+
+This repository is a fork created solely for completing the AlgoAnalytics Cloud Internship Dockerization Assignment.
+
+---
+
+# Project Structure
+
+```
+.
+├── flask/
+├── website/
+│   ├── auth.py
+│   ├── models.py
+│   ├── views.py
+│   ├── static/
+│   └── templates/
+├── tests/
+├── main.py
+├── requirements.txt
+├── Dockerfile
+├── docker-compose.yml
+├── README.md
+└── .gitignore
+```
+
+### Important Files
+
+| File | Description |
+|-------|-------------|
+| `main.py` | Application entry point |
+| `website/auth.py` | Authentication routes |
+| `website/models.py` | Database models |
+| `requirements.txt` | Python dependencies |
+| `Dockerfile` | Docker image instructions |
+| `README.md` | Project documentation |
+
+---
+
+# Application Architecture
+
+```
+Browser
+      │
+      ▼
+Flask Application
+      │
+Flask-SQLAlchemy
+      │
+SQLite Database (database.db)
+```
+
+The application uses SQLite as its database, therefore no separate database server or additional Docker container is required.
+
+---
+
+# Docker Commands Used
+
+### Build Image
+
+```bash
+docker build -t <IMAGE_NAME> <destination_file>
+```
+
+### List Images
+
+```bash
+docker images
+```
+
+### Run Container
+
+```bash
+docker run -d \
+--name <CONTAINER_NAME> \
+-p <HOST_MACHINE_PORT>:<CONTAINER_PORT> \
+<IMAGE_NAME>
+```
+
+### View Running Containers
+
+```bash
+docker ps
+```
+
+### View Logs
+
+```bash
+docker logs <CONTAINER_ID/NAME>
+```
+
+### Stop Container
+
+```bash
+docker stop <CONTAINER_ID/NAME>
+```
+
+### Remove Container
+
+```bash
+docker rm <CONTAINER_ID/NAME>
+```
+
+### Remove Image
+
+```bash
+docker rmi <IMAGE_ID/NAME>
+```
+
+---
+
+# Problems Encountered
+
+## Issue 1
+
+### Signup Failure
+
+**Error**
+
+```
+AttributeError:
+'NoneType' object has no attribute 'is_active'
+```
+
+### Cause
+
+After creating a new user, the application attempted to log in the variable `user`, which was `None`, instead of the newly created user object.
+
+### Resolution
+
+Changed:
+
+```python
+login_user(user, remember=True)
+```
+
+to
+
+```python
+login_user(new_user, remember=True)
+```
+
+---
+
+## Issue 2
+
+### Logout Not Working
+
+### Cause
+
+The logout route incorrectly called:
+
+```python
+login_user(current_user)
+```
+
+instead of logging the user out.
+
+### Resolution
+
+Changed:
+
+```python
+login_user(current_user)
+```
+
+to
+
+```python
+logout_user()
+```
+
+---
+
+## Issue 3
+
+### Flask Application Not Accessible Outside the Container
+
+### Cause
+
+The Flask development server was started using:
+
+```python
+app.run(debug=True)
+```
+
+By default, Flask binds to `127.0.0.1`, which only accepts connections from inside the container. As a result, the application could not be accessed through Docker port mapping.
+
+### Resolution
+
+Updated the application to listen on all network interfaces:
+
+```python
+app.run(host="0.0.0.0", debug=True)
+```
+
+This allows the application to be accessed through:
+
+```
+http://localhost:8080
+```
+
+after mapping container port `5000` to host port `8080`
+
+---
+
+# Improvements Made
+
+Besides Dockerizing the application, the following improvements were made:
+
+- Fixed user signup authentication bug.
+- Fixed logout functionality.
+- Verified complete application workflow.
+- Added complete project documentation.
+
+---
+
+# Technologies Used
+
+- Python
+- Flask
+- Flask-SQLAlchemy
+- Flask-Login
+- SQLite
+- Docker
+
+---
+
+# Assignment Outcome
+
+Successfully completed the Cloud Internship Dockerization Assignment by:
+
+- Understanding an existing Flask application.
+- Containerizing the application using Docker.
+- Verifying functionality inside a Docker container.
+- Documenting the deployment process.
+- Identifying and fixing application bugs encountered during testing.
+
+---
+
+# Author
+
+**Srijit Nitin Shirsat**
+
+GitHub: https://github.com/Srijit-Shirsat
