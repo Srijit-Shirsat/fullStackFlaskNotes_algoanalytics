@@ -149,6 +149,12 @@ Verified:
 - Notes Deletion
 - Logout
 
+# Application Images
+
+<img width="1917" height="972" alt="Screenshot 2026-07-29 174915" src="https://github.com/user-attachments/assets/9ffa150c-20ad-43d8-a7f9-92f0980fd989" />
+<img width="1917" height="971" alt="Screenshot 2026-07-29 175112" src="https://github.com/user-attachments/assets/c056aee8-82df-44b9-b74b-c449c7ef5812" />
+
+
 # Acknowledgements
 
 This project is based on the following open-source repository:
